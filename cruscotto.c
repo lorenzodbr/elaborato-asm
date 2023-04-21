@@ -3,16 +3,13 @@
 #include <stdlib.h>
 
 #define PIN "2244"
-#define STR_CHOICE_LENGTH 255
 
-// Arrow keys
 #define UP_ARROW "\x1B[A"
 #define DOWN_ARROW "\x1B[B"
 #define LEFT_ARROW "\x1B[D"
 #define RIGHT_ARROW "\x1B[C"
 #define ENTER "\n"
 
-// Choices
 #define SETTING_AUTOMOBILE 0
 #define DATA 1
 #define ORA 2
@@ -22,25 +19,23 @@
 #define FRECCE_DIREZIONE 6
 #define RESET_PRESSIONE_GOMME 7
 
-// Limiti frecce direzione
 #define FRECCE_DIREZIONE_MIN 2
 #define FRECCE_DIREZIONE_MAX 5
+#define STR_CHOICE_LENGTH 255
 
-// Choices count
 #define USER_CHOICES_COUNT 6
 #define SUPERVISOR_CHOICES_COUNT 8
 
-// Boolean
 #define TRUE 1
+#define FALSE 0
 
-int supervisor = 0;
-int choice = 0;
-int door_lock = 1;
-int back_home = 1;
+int supervisor = FALSE;
+int choice = SETTING_AUTOMOBILE;
+int door_lock = TRUE;
+int back_home = TRUE;
 int direction_arrow = 3;
 
-void update_choice();
-void str2binary(char *s);
+void handle_choice();
 void get_row();
 void perform_action();
 
@@ -56,13 +51,13 @@ int main(int argc, char *argv[]){
     }
 
     while(TRUE){
-        update_choice();
+        handle_choice();
     }
 
     return 0;
 }
 
-void update_choice(){
+void handle_choice(){
     get_row();
 
     int max_choice = supervisor ? SUPERVISOR_CHOICES_COUNT : USER_CHOICES_COUNT;
