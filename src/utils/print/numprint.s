@@ -1,8 +1,8 @@
 # Function to print a number stored in EAX, converting it to a string
 
 .section .data
-    numstr: .ascii "000000000000"     # string output
-	numtmp: .ascii "000000000000"     # temporary string
+    numstr: .asciz "000000000000"     # string output
+	numtmp: .asciz "000000000000"     # temporary string
 
 .section .text
 	.global numprint
@@ -10,24 +10,24 @@
 .type numprint, @function
 
 numprint:
-    pushl %eax                  # Save registers
+    pushl %eax                 # Save registers
     pushl %ebx
     pushl %ecx
     pushl %edx
     pushl %esi
     pushl %edi
 
-movl $10, %ebx                 # carica 10 in EBX (usato per le divisioni)
-	movl $0, %ecx              # azzera il contatore ECX
+	movl $10, %ebx             # carica 10 in EBX (usato per le divisioni)
+	xorl %ecx, %ecx            # azzera il contatore ECX
 
-	leal numtmp, %esi          # carica l'indirizzo di 'numtmp' in ESI
+	leal numtmp, %edi          # carica l'indirizzo di 'numtmp' in ESI
 
 keep_dividing:
 	movl $0, %edx              # azzera il contenuto di EDX
 	divl %ebx                  # divide per 10 il numero ottenuto
 
 	addb $48, %dl              # aggiunge 48 al resto della divisione
-	movb %dl, (%ecx,%esi,1)    # sposta il contenuto di DL in numtmp
+	movb %dl, (%ecx,%edi,1)    # sposta il contenuto di DL in numtmp
 
 	inc %ecx                   # incrementa il contatore ECX
 
@@ -37,18 +37,19 @@ keep_dividing:
 
 	movl $0, %ebx              # azzera un secondo contatore in EBX
 
-	leal numstr, %edi          # carica l'indirizzo di 'numstr' in EDI
+	leal numstr, %esi          # carica l'indirizzo di 'numstr' in EDI
 
 reverse:
-	movb -1(%ecx, %esi, 1), %al # carica in AL il contenuto dell'ultimo byte di 'numtmp'
-	movb %al, (%ebx, %edi, 1)   # carica nel primo byte di 'numstr' il contenuto di AL
+	movb -1(%ecx, %edi, 1), %al # carica in AL il contenuto dell'ultimo byte di 'numtmp'
+	movb %al, (%ebx, %esi, 1)   # carica nel primo byte di 'numstr' il contenuto di AL
 
 	inc %ebx                    # incrementa il contatore EBX
 
 	loop reverse
 
 print:
-    movl %edi, %esi             # Move string address to esi for printing
+	movb $0, (%ebx, %esi, 1)    # carica il carattere di terminazione in 'numstr'
+
     call strprint               # Call the string print function
 
     popl %edi                   # Restore registers

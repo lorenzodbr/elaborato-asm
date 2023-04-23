@@ -41,7 +41,7 @@ ripeti:
   
     subb $48, %bl            # converte il codice ASCII della cifra nel numero corrisp.
     movl $10, %edx
-    mulb %dl                # EBX = EBX * 10
+    mulb %dl                 # EBX = EBX * 10
     addl %ebx, %eax
   
     inc %ecx
