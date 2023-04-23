@@ -1,5 +1,9 @@
 # Function to convert a string to an integer. Uses ESI as a pointer to the string, and EAX as the result.
 # EBX is set to 0 if the conversion was successful, and 1 if it failed.
+#
+# Registers:
+# EAX = result
+# EBX = error flag
 
 .section .data
     scala: .byte 10

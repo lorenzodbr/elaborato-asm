@@ -1,3 +1,5 @@
+# Variables and constants of the program
+
 .section .data
     .global version_str
     version_str:

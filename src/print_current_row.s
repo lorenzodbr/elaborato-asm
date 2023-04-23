@@ -1,4 +1,9 @@
-#Print the current row using the index stored in EAX
+# Print the current row using the index stored in EDX
+#
+# Registers:
+# EAX = Working register
+# ESI = Pointer to the string to print
+# EDX = Index of the row to print
 
 .section .text
 	.global print_current_row
@@ -9,7 +14,7 @@ print_current_row:
     pushl %esi
     pushl %eax
 
-    cmpl $0, %edx           #Switch-case assembly implementation
+    cmpl $0, %edx           # Switch-case assembly implementation
     je print_row_0
 
     cmpl $1, %edx

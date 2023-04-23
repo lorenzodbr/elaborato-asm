@@ -1,3 +1,5 @@
+# Function used to perform the actions of the submenu, based on the index stored in EDX
+
 .section .data
 .section .text
 	.global enter_submenu
