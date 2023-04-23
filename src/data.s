@@ -1,19 +1,19 @@
 .section .data
     .global version_str
     version_str:
-        .asciz "1.2"
+        .asciz "1.3"
 
     .global initial_str_1
     initial_str_1:
-        .asciz "Avvio programma...\n\n\t--------------------------------------------\n\t|         Cruscotto Assembly v"
+        .asciz "\n\t[!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
 
     .global initial_str_2
     initial_str_2:
-        .asciz "          |\n\t| di Lorenzo Di Berardino e Filippo Milani |\n\t--------------------------------------------\n"
+        .asciz "          |\n  | di Lorenzo Di Berardino e Filippo Milani |\n  --------------------------------------------\n"
 
     .global exit_str 
     exit_str:
-        .asciz "\nUscita dal programma...\n"
+        .asciz "\n\t[!] Esco dal cruscotto...\n"
 
     .global no_param_str
     no_param_str:
@@ -21,7 +21,7 @@
 
     .global supervisor_mode_str
     supervisor_mode_str:
-        .asciz "\n\t      [!] Modalità supervisore attiva\n"
+        .asciz "\n\t[!] Modalità supervisore attiva\n"
 
     .global pin_str
     pin_str:
@@ -61,7 +61,7 @@
 
     .global command_invalid_str
     command_invalid_str:
-        .asciz "\n[!] Comando non valido\n"
+        .asciz "\n\t[!] Comando non valido\n"
 
     .global row_0_str
     row_0_str: 
@@ -73,7 +73,7 @@
 
     .global date_str
     date_str: 
-        .asciz "\nOggi è il 15/06/2014\n"
+        .asciz "\n\tData corrente: 15/06/2014\n"
 
     .global row_2_str
     row_2_str: 
@@ -81,15 +81,15 @@
 
     .global time_str
     time_str: 
-        .asciz "\nSono le 15:32\n"
+        .asciz "\n\tOra corrente: 15:32\n"
 
     .global row_3_str
     row_3_str: 
-        .asciz "\n4. Blocco automatico porte\n"
+        .asciz "\n4. Blocco automatico porte: "
 
     .global row_4_str
     row_4_str: 
-        .asciz "\n5. Back-home\n"
+        .asciz "\n5. Back-home: "
 
     .global row_5_str
     row_5_str: 
@@ -97,7 +97,7 @@
 
     .global row_6_str
     row_6_str: 
-        .asciz "\n7. Frecce direzione\n"
+        .asciz "\n7. Frecce direzione: "
 
     .global row_7_str
     row_7_str: 
@@ -105,52 +105,64 @@
 
     .global function_not_implemented_str
     function_not_implemented_str: 
-        .asciz "\n[!] Funzione non implementata\n"
+        .asciz "\n\t[!] Funzione non implementata\n"
+
+    .global invalid_input_str
+    invalid_input_str: 
+        .asciz "\n\t[!] Input non valido"
 
     .global tire_pressure_reset_str
     tire_pressure_reset_str: 
-        .asciz "\n[!] Pressione gomme resettata\n"
+        .asciz "\n\t[!] Pressione gomme resettata\n"
 
     .global input_frecce_direzione_str
     input_frecce_direzione_str: 
-        .asciz "\n[!] Inserire un numero (2-5)\n"
+        .asciz "\n\t[!] Inserire un numero intero (2-5)\n"
+
+    .global lights_indicators_too_big_str
+    lights_indicators_too_big_str: 
+        .asciz "\n\t[!] Valore troppo grande. Imposto il massimo"
+
+    .global lights_indicators_too_small_str
+    lights_indicators_too_small_str: 
+        .asciz "\n\t[!] Valore troppo piccolo. Imposto il minimo"
 
     .global current_value_str
     current_value_str: 
-        .asciz "\n[!] Valore attuale: "
+        .asciz "\n\t[!] Valore attuale: "
 
     .global new_value_str
     new_value_str: 
-        .asciz "\n[!] Nuovo valore: "
+        .asciz "\n\t[!] Nuovo valore: "
 
     .global up_down_to_change_str
     up_down_to_change_str: 
-        .asciz "\n[!] Freccia su o giù, poi invio per modificare\n"
+        .asciz "\t[!] Freccia su o giù, poi invio per modificare\n"
 
     .global on_str
     on_str: 
-        .asciz "ON"
+        .asciz "ON\n"
 
     .global off_str
     off_str: 
-        .asciz "OFF"
+        .asciz "OFF\n"
 
     .global frecce_direzione
     frecce_direzione:
-        .long 3
+        .int 3
 
     .global frecce_direzione_max
     frecce_direzione_max:
-        .long 5
+        .int 5
 
     .global frecce_direzione_min
     frecce_direzione_min:
-        .long 2
+        .int 2
 
     .global door_lock
     door_lock:
-        .long 1
+        .int 1
 
     .global back_home
     back_home:
-        .long 1
+        .int 1

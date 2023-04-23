@@ -25,7 +25,7 @@ numget:
     incl %edx
     int $0x80
 
-atoi_num:
+atoi_numget:
     leal num_str, %esi 		# metto indirizzo della stringa in esi 
   
     xorl %eax,%eax			# Azzero registri General Purpose
@@ -33,11 +33,11 @@ atoi_num:
     xorl %ecx,%ecx           
     xorl %edx,%edx
   
-ripeti:
+repeat_numget:
     movb (%ecx,%esi,1), %bl
   
     cmp $10, %bl             # vedo se e' stato letto il carattere '\n'
-    je fine_atoi
+    je atoi_end_numget
   
     subb $48, %bl            # converte il codice ASCII della cifra nel numero corrisp.
     movl $10, %edx
@@ -45,9 +45,9 @@ ripeti:
     addl %ebx, %eax
   
     inc %ecx
-    jmp ripeti
+    jmp repeat_numget
 
-fine_atoi:
+atoi_end_numget:
     
     popl %esi
     popl %edx

@@ -7,6 +7,7 @@
 
 print_current_row:
     pushl %esi
+    pushl %eax
 
     cmpl $0, %edx           #Switch-case assembly implementation
     je print_row_0
@@ -49,10 +50,32 @@ print_row_2:
 
 print_row_3:
     leal row_3_str, %esi
+    call strprint
+
+    movl door_lock, %eax
+    cmpl $0, %eax
+    je print_row_3_off
+
+    leal on_str, %esi
+    jmp print_row
+
+print_row_3_off:
+    leal off_str, %esi
     jmp print_row
 
 print_row_4:
     leal row_4_str, %esi
+    call strprint
+
+    movl back_home, %eax
+    cmpl $0, %eax
+    je print_row_4_off
+
+    leal on_str, %esi
+    jmp print_row
+
+print_row_4_off:
+    leal off_str, %esi
     jmp print_row
 
 print_row_5:
@@ -61,7 +84,15 @@ print_row_5:
 
 print_row_6:
     leal row_6_str, %esi
-    jmp print_row
+    call strprint
+
+    movl frecce_direzione, %eax
+    call numprint
+
+    leal enter_str, %esi
+    call strprint
+
+    jmp exit_print_row
 
 print_row_7:
     leal row_7_str, %esi
@@ -70,6 +101,8 @@ print_row_7:
 print_row:
     call strprint
 
+exit_print_row:
+    popl %eax
     popl %esi
 
     ret

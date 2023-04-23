@@ -2,7 +2,7 @@
 
 .section .data
     str:    # Length is needed to prevent buffer overflow
-        .asciz "000000000000000000000000"
+        .asciz "00000000000000000000"
     str_len:
         .long . - str
 

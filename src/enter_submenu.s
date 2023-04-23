@@ -186,6 +186,8 @@ update_back_home:
     jmp submenu_4_wait_for_input
 
 submenu_6:                          # lights indicators set
+
+lights_indicators_print_current_value:
     leal current_value_str, %esi            # print current value string "Valore corrente: "
     call strprint
 
@@ -193,32 +195,52 @@ submenu_6:                          # lights indicators set
     call numprint
 
 submenu_6_wait_for_input:
-
     leal input_frecce_direzione_str, %esi       # print instructions string "Inserisci il nuovo valore: "
     call strprint
 
     leal input_char, %esi
     call strprint
     
-    call numget
+    call strget
+    call atoi
+
+    cmpl $0, %ebx
+    jne lights_indicators_non_numeric_input
 
     cmpl frecce_direzione_max, %eax
     jg lights_indicators_too_big
 
     cmpl frecce_direzione_min, %eax
-    jl lights_indicators_too_low
+    jl lights_indicators_too_small
 
     movl %eax, frecce_direzione
 
     jmp lights_indicators_print_new_value
 
+lights_indicators_non_numeric_input:
+    leal left_arrow_str, %edi
+    call strcmp
+    cmpl $0, %ecx
+    je exit_submenu
+
+    leal invalid_input_str, %esi
+    call strprint
+
+    jmp lights_indicators_print_current_value
+
 lights_indicators_too_big:
+    leal lights_indicators_too_big_str, %esi
+    call strprint
+
     movl frecce_direzione_max, %eax
     movl %eax, frecce_direzione
 
     jmp lights_indicators_print_new_value
 
-lights_indicators_too_low:
+lights_indicators_too_small:
+    leal lights_indicators_too_small_str, %esi
+    call strprint
+
     movl frecce_direzione_min, %eax
     movl %eax, frecce_direzione
 
