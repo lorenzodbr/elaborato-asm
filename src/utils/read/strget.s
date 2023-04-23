@@ -1,9 +1,8 @@
 # Function to read a string from the console and store the address in ESI
 
 .section .data
-    str:
-        .asciz "0000"
-
+    str:    # Length is needed to prevent buffer overflow
+        .asciz "000000000000000000000000"
     str_len:
         .long . - str
 

@@ -125,7 +125,7 @@
 
     .global up_down_to_change_str
     up_down_to_change_str: 
-        .asciz "\n[!] Freccia su o giù per modificare\n"
+        .asciz "\n[!] Freccia su o giù, poi invio per modificare\n"
 
     .global on_str
     on_str: 

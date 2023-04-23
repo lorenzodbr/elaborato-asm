@@ -186,13 +186,15 @@ update_back_home:
     jmp submenu_4_wait_for_input
 
 submenu_6:                          # lights indicators set
-    leal current_value_str, %esi
+    leal current_value_str, %esi            # print current value string "Valore corrente: "
     call strprint
 
-    movl frecce_direzione, %eax
+    movl frecce_direzione, %eax             # print current value
     call numprint
-    
-    leal input_frecce_direzione_str, %esi
+
+submenu_6_wait_for_input:
+
+    leal input_frecce_direzione_str, %esi       # print instructions string "Inserisci il nuovo valore: "
     call strprint
 
     leal input_char, %esi
@@ -228,10 +230,7 @@ lights_indicators_print_new_value:
 
     call numprint               # new value is already in EAX
 
-    leal enter_str, %esi
-    call strprint
-
-    jmp exit_submenu
+    jmp submenu_6_wait_for_input
 
 submenu_7:
     leal tire_pressure_reset_str, %esi
@@ -259,4 +258,3 @@ exit_status_print:
     popl %esi
 
     ret
-    

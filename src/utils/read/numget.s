@@ -1,4 +1,4 @@
-# Function to read a number from stdin and store it in EAX
+# Function to read a number from stdin and store it in EAX; in EBX 0 if the read was successful, 1 otherwise
 
 .section .data
     num_str:                    # String to store the number in
