@@ -19,6 +19,7 @@
 #define FRECCE_DIREZIONE 6
 #define RESET_PRESSIONE_GOMME 7
 
+#define FRECCE_DIREZIONE_DEF 3
 #define FRECCE_DIREZIONE_MIN 2
 #define FRECCE_DIREZIONE_MAX 5
 #define STR_CHOICE_LENGTH 255
@@ -29,25 +30,25 @@
 #define TRUE 1
 #define FALSE 0
 
-int supervisor = FALSE;
 int choice = SETTING_AUTOMOBILE;
 int door_lock = TRUE;
 int back_home = TRUE;
-int direction_arrow = 3;
+int direction_arrow = FRECCE_DIREZIONE_DEF;
+int max_choice = USER_CHOICES_COUNT;
 
 void handle_choice();
 void get_row();
 void perform_action();
 
 int main(int argc, char *argv[]){
-    if(!supervisor && argc == 2 && !strcmp(argv[1], PIN)){
-        supervisor = 1;
-    }
-
     printf("Avvio programma...\n");
-
-    if(supervisor){
-        printf("\n! Modalità supervisore attivata\n");
+    
+    if(argc == 2 && !strcmp(argv[1], PIN)){
+        printf("\n[!] Modalità supervisore\n");
+        max_choice = SUPERVISOR_CHOICES_COUNT;
+    }
+    else {
+        printf("\n[!] Modalità utente\n");
     }
 
     while(TRUE){
@@ -60,8 +61,6 @@ int main(int argc, char *argv[]){
 void handle_choice(){
     get_row();
 
-    int max_choice = supervisor ? SUPERVISOR_CHOICES_COUNT : USER_CHOICES_COUNT;
-    
     char str_choice[STR_CHOICE_LENGTH];
 
     printf(">> ");
@@ -134,7 +133,7 @@ void perform_action(){
                 }
             }
             else if(strcmp(str_choice, LEFT_ARROW)){
-                printf("\n! Comando non riconosciuto\n");
+                printf("\n[!] Comando non riconosciuto\n");
             }
 
             printf("\nStato attuale: %s (freccia su o giù e invio per modificare)\n", choice == BLOCCO_AUTOMATICO ? (door_lock ? "ON" : "OFF") : (back_home ? "ON" : "OFF"));
