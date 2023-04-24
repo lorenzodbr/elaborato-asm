@@ -42,7 +42,15 @@ print_current_row:
     jmp print_row
 
 print_row_0:
+    cmpl $8, %eax
+    je print_row_0_supervisor
+
+print_row_0_user:
     leal row_0_str, %esi
+    jmp print_row
+
+print_row_0_supervisor:
+    leal row_0_supervisor_str, %esi
     jmp print_row
 
 print_row_1:

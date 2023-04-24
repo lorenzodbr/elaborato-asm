@@ -1,10 +1,13 @@
 # Function to read a string from the console and store the address in ESI
 
-.section .data
+.section .bss
     str:    # Length is needed to prevent buffer overflow
-        .asciz "00000000000000000000"
-    str_len:
-        .long . - str
+        .asciz
+
+.section .data
+    #str_len:
+        #.long . - str
+
 
 .section .text
 	.global strget
@@ -20,7 +23,7 @@ strget:
     movl $3, %eax               # Syscall number
     movl $1, %ebx               # Stdin
     leal str, %ecx              # Address of string
-    movl str_len, %edx          # Length of string
+    movl $255, %edx             # Length of buffer
     incl %edx                   # Add 1 for null terminator
     int $0x80                   # Call kernel
 

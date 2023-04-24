@@ -25,7 +25,9 @@ atoi:
     movb (%ecx, %esi), %bl
 
     cmpb $45, %bl            # check if the character is a '-'
-    je negative_number
+    jne repeat_atoi
+
+    incl %ecx                # move to the next character; ignore the '-' for now
 
 repeat_atoi:
     movb (%ecx, %esi), %bl
@@ -40,17 +42,12 @@ repeat_atoi:
     jg illegal_char
 
     subb $48, %bl            # convert the character to a digit
-    mulb scala               # EBX = EBX * 10
-    addb %bl, %al            # EAX = EAX + EBX
+    movl $10, %edx
+    mull %edx                # EBX = EBX * 10
+    addl %ebx, %eax
   
     inc %ecx
     jmp repeat_atoi
-
-negative_number:
-    movb $1, %dl            # set the flag to indicate a negative number
-
-    inc %ecx                # move to the next character
-    jmp repeat_atoi         # repeat the conversion
 
 illegal_char:
     xorl %eax, %eax         # set the return value to 0
@@ -58,9 +55,10 @@ illegal_char:
     jmp end_atoi            # end the conversion
 
 conversion_success:
-    cmpb $0, %dl            # check if the number is negative
-    je set_return_value
-    
+    movb (%esi), %bl
+    cmpb $45, %bl           # check if the number is negative
+    jne set_return_value
+
     negl %eax               # if the number is negative, negate it
 
 set_return_value:

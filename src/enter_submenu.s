@@ -7,12 +7,12 @@
 .type enter_submenu, @function
 
 enter_submenu:
-    pushl %edi
+    pushl %edi              # save registers
     pushl %esi
     pushl %ecx
     pushl %eax
 
-    cmpl $0, %edx
+    cmpl $0, %edx           # Switch-case implementation using jumps
     je submenu_0
 
     cmpl $1, %edx
@@ -203,7 +203,7 @@ submenu_6_wait_for_input:
     leal input_char, %esi
     call strprint
     
-    call strget
+    call numget
     call atoi
 
     cmpl $0, %ebx
@@ -231,7 +231,7 @@ lights_indicators_non_numeric_input:
     jmp lights_indicators_print_current_value
 
 lights_indicators_too_big:
-    leal lights_indicators_too_big_str, %esi
+    leal invalid_input_str, %esi
     call strprint
 
     movl frecce_direzione_max, %eax
@@ -240,7 +240,7 @@ lights_indicators_too_big:
     jmp lights_indicators_print_new_value
 
 lights_indicators_too_small:
-    leal lights_indicators_too_small_str, %esi
+    leal invalid_input_str, %esi
     call strprint
 
     movl frecce_direzione_min, %eax

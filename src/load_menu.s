@@ -20,22 +20,22 @@ load_menu:
 
     leal up_arrow_str, %edi     # compare input to up arrow
     call strcmp
-    cmp $0, %ecx                # if strcmp returns 0, jump to decrement_index
+    cmpl $0, %ecx                # if strcmp returns 0, jump to decrement_index
     je decrement_index
 
     leal down_arrow_str, %edi   # compare input to down arrow
     call strcmp
-    cmp $0, %ecx                # if strcmp returns 0, jump to increment_index
+    cmpl $0, %ecx                # if strcmp returns 0, jump to increment_index
     je increment_index
 
     leal right_arrow_str, %edi  # compare input to right arrow
     call strcmp
-    cmp $0, %ecx                # if strcmp returns 0, jump to enter_submenu_call
+    cmpl $0, %ecx                # if strcmp returns 0, jump to enter_submenu_call
     je enter_submenu_call
 
     leal left_arrow_str, %edi   # compare input to enter
     call strcmp
-    cmp $0, %ecx                # if strcmp returns 0, exit load_menu
+    cmpl $0, %ecx                # if strcmp returns 0, exit load_menu
     je exit_load_menu
 
     leal command_invalid_str, %esi  # otherwise, print invalid command

@@ -67,11 +67,15 @@
 
     .global row_0_str
     row_0_str: 
-        .asciz "\n1. Setting automobile\n"
+        .asciz "\n    1. Setting automobile\n"
+    
+    .global row_0_supervisor_str
+    row_0_supervisor_str: 
+        .asciz "\n    1. Setting automobile (supervisore)\n"
 
     .global row_1_str
     row_1_str: 
-        .asciz "\n2. Data\n"
+        .asciz "\n    2. Data\n"
 
     .global date_str
     date_str: 
@@ -79,7 +83,7 @@
 
     .global row_2_str
     row_2_str: 
-        .asciz "\n3. Ora\n"
+        .asciz "\n    3. Ora\n"
 
     .global time_str
     time_str: 
@@ -87,23 +91,23 @@
 
     .global row_3_str
     row_3_str: 
-        .asciz "\n4. Blocco automatico porte: "
+        .asciz "\n    4. Blocco automatico porte: "
 
     .global row_4_str
     row_4_str: 
-        .asciz "\n5. Back-home: "
+        .asciz "\n    5. Back-home: "
 
     .global row_5_str
     row_5_str: 
-        .asciz "\n6. Check olio\n"
+        .asciz "\n    6. Check olio\n"
 
     .global row_6_str
     row_6_str: 
-        .asciz "\n7. Frecce direzione: "
+        .asciz "\n    7. Frecce direzione: "
 
     .global row_7_str
     row_7_str: 
-        .asciz "\n8. Reset pressione gomme\n"
+        .asciz "\n    8. Reset pressione gomme\n"
 
     .global function_not_implemented_str
     function_not_implemented_str: 
