@@ -72,19 +72,19 @@ wait_to_exit:                       # Wait for any input, and exit on "back" com
     leal left_to_go_back_str, %esi
     call strprint
     
-    leal input_char, %esi
+    leal input_char, %esi           # Print ">>"
     call strprint
 
-    call strget
+    call strget                     # Get input from user
 
-    leal left_arrow_str, %edi
+    leal left_arrow_str, %edi       # Check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
-    je exit_submenu
+    je exit_submenu                 # If yes, exit submenu
 
-    call print_error
+    call print_error                # Print error message otherwise
 
-    jmp wait_to_exit
+    jmp wait_to_exit                # Loop back
 
 submenu_3:                          # auto door lock
     leal current_value_str, %esi
@@ -97,6 +97,10 @@ submenu_3_wait_for_input:
     leal up_down_to_change_str, %esi    # Print instructions
     call strprint
     
+    leal left_to_go_back_str, %esi      # Print instructions string "Freccia sinistra per tornare indietro"
+    call strprint
+
+
     leal input_char, %esi           # Print ">>"
     call strprint
 
@@ -159,6 +163,10 @@ submenu_4_wait_for_input:
     leal up_down_to_change_str, %esi    # print instructions
     call strprint
     
+    leal left_to_go_back_str, %esi      # print instructions string "Freccia sinistra per tornare indietro"
+    call strprint
+
+
     leal input_char, %esi           # print ">>"
     call strprint
 
@@ -204,7 +212,6 @@ update_back_home:
     jmp submenu_4_wait_for_input
 
 submenu_6:                          # lights indicators set
-
 lights_indicators_print_current_value:
     leal current_value_str, %esi            # print current value string "Valore corrente: "
     call strprint
@@ -214,6 +221,9 @@ lights_indicators_print_current_value:
 
 submenu_6_wait_for_input:
     leal input_frecce_direzione_str, %esi       # print instructions string "Inserisci il nuovo valore: "
+    call strprint
+
+    leal left_to_go_back_str, %esi              # print instructions string "Freccia sinistra per tornare indietro"
     call strprint
 
     leal input_char, %esi

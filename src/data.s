@@ -7,7 +7,7 @@
 
     .global initial_str_1
     initial_str_1:
-        .asciz "\n\t[!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
+        .asciz "\n\t  [!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
 
     .global initial_str_2
     initial_str_2:
