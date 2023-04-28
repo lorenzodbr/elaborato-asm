@@ -7,11 +7,12 @@
 .type enter_submenu, @function
 
 enter_submenu:
-    pushl %edi              # save registers
+    pushl %edi              # Save registers
     pushl %esi
     pushl %ecx
     pushl %eax
 
+enter_submenu_switch:
     cmpl $0, %edx           # Switch-case implementation using jumps
     je submenu_0
 
@@ -84,7 +85,7 @@ wait_to_exit:                       # Wait for any input, and exit on "back" com
 
     call print_error                # Print error message otherwise
 
-    jmp wait_to_exit                # Loop back
+    jmp enter_submenu_switch        # Loop back
 
 submenu_3:                          # auto door lock
     leal current_value_str, %esi
@@ -283,7 +284,7 @@ lights_indicators_print_new_value:
     jmp submenu_6_wait_for_input
 
 submenu_7:
-    leal tire_pressure_reset_str, %esi
+    leal tire_pressure_resetted_str, %esi
     call strprint
 
     jmp exit_submenu

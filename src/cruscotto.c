@@ -9,6 +9,35 @@
 #define LEFT_ARROW "\x1B[D"
 #define RIGHT_ARROW "\x1B[C"
 #define ENTER "\n"
+#define INITIAL_MESSAGE_1 "\n\t  [!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
+#define EXIT_MESSAGE "\n\t[!] Esco dal cruscotto...\n"
+#define VERSION "1.4"
+#define INITIAL_MESSAGE_2 "          |\n  | di Lorenzo Di Berardino e Filippo Milani |\n  --------------------------------------------\n"
+#define SUPERVISOR_MODE "\n\t[!] Modalità supervisore attiva\n"
+#define USER_MODE "\n\t[!] Modalità utente attiva\n"
+#define INPUT_CHAR "\n>> "
+
+#define ROW_0 "    1. Setting automobile\n"
+#define ROW_0_SUPERVISOR "    1. Setting automobile (supervisore)\n"
+#define ROW_1 "    2. Data\n"
+#define ROW_2 "    3. Ora\n"
+#define ROW_3 "    4. Blocco automatico porte: "
+#define ROW_4 "    5. Back-home: "
+#define ROW_5 "    6. Check olio\n"
+#define ROW_6 "    7. Frecce direzione: "
+#define ROW_7 "    8. Reset pressione gomme\n"
+
+#define COMMAND_INVALID "\n\t[!] Comando non valido\n"
+#define FUNCTION_NOT_IMPLEMENTED "\n\t[!] Funzione non implementata\n"
+#define INVALID_INPUT "\n\t[!] Input non valido"
+#define TIRE_PRESSURE_RESETTED "\n\t[!] Pressione gomme resettata\n"
+#define INPUT_LIGHT_INDICATORS "\n\t[!] Inserire un numero intero (2-5)\n"
+#define CURRENT_VALUE "\n\t[!] Valore attuale: "
+#define NEW_VALUE "\n\t[!] Nuovo valore: "
+#define UP_DOWN_TO_CHANGE "\t[!] Freccia su o giù, poi invio per salvare\n"
+#define LEFT_TO_GO_BACK "\t[!] Freccia sinistra per tornare indietro\n"
+#define ON "ON\n"
+#define OFF "OFF\n"
 
 #define SETTING_AUTOMOBILE 0
 #define DATA 1
@@ -33,7 +62,7 @@
 int choice = SETTING_AUTOMOBILE;
 int door_lock = TRUE;
 int back_home = TRUE;
-int direction_arrow = FRECCE_DIREZIONE_DEF;
+int light_indicators = FRECCE_DIREZIONE_DEF;
 int max_choice = USER_CHOICES_COUNT;
 
 void handle_choice();
@@ -41,47 +70,52 @@ void get_row();
 void perform_action();
 
 int main(int argc, char *argv[]){
-    printf("Avvio programma...\n");
+    printf("%s%s%s", INITIAL_MESSAGE_1, VERSION, INITIAL_MESSAGE_2);
     
     if(argc == 2 && !strcmp(argv[1], PIN)){
-        printf("\n[!] Modalità supervisore\n");
+        printf(SUPERVISOR_MODE);
         max_choice = SUPERVISOR_CHOICES_COUNT;
     }
     else {
-        printf("\n[!] Modalità utente\n");
+        printf(USER_MODE);
     }
 
-    while(TRUE){
-        handle_choice();
-    }
+    handle_choice();
+
+    printf(EXIT_MESSAGE);
 
     return 0;
 }
 
 void handle_choice(){
-    get_row();
+    do { 
+        get_row();
 
-    char str_choice[STR_CHOICE_LENGTH];
+        char str_choice[STR_CHOICE_LENGTH];
 
-    printf(">> ");
-    scanf("%s%*c", str_choice);
+        printf(INPUT_CHAR);
+        scanf("%s%*c", str_choice);
 
-    if(!strcmp(str_choice, UP_ARROW)){
-        choice = (choice - 1) % max_choice;
-    }
-    else if(!strcmp(str_choice, DOWN_ARROW)){
-        choice = (choice + 1) % max_choice;
-    }
-    else if(!strcmp(str_choice, RIGHT_ARROW)){
-        perform_action();
-    }
-    else {
-        printf("\n! Comando non riconosciuto\n");
-    }
+        if(!strcmp(str_choice, UP_ARROW)){
+            choice = (choice - 1) % max_choice;
+        }
+        else if(!strcmp(str_choice, DOWN_ARROW)){
+            choice = (choice + 1) % max_choice;
+        }
+        else if(!strcmp(str_choice, RIGHT_ARROW)){
+            perform_action();
+        }
+        else if(!strcmp(str_choice, LEFT_ARROW)){
+            return;
+        }
+        else {
+            printf(COMMAND_INVALID);
+        }
 
-    if(choice < 0){
-        choice = max_choice - 1;
-    }
+        if(choice < 0){
+            choice = max_choice - 1;
+        }
+    } while(TRUE);
 }
 
 void get_row(){
@@ -89,28 +123,33 @@ void get_row(){
 
     switch (choice){
         case SETTING_AUTOMOBILE:
-            printf("1. Setting automobile:\n");
+            if(max_choice == SUPERVISOR_CHOICES_COUNT){
+                printf(ROW_0_SUPERVISOR);
+            } else {
+                printf(ROW_0);
+            }
+
             break;
         case DATA:
-            printf("2. Data: 15/06/2014\n");
+            printf(ROW_1);
             break;
         case ORA:
-            printf("3. Ora: 15:32\n");
+            printf(ROW_2);
             break;
         case BLOCCO_AUTOMATICO:
-            printf("4. Blocco automatico porte: %s\n", door_lock ? "ON" : "OFF");
+            printf("%s%s", ROW_3, door_lock ? ON : OFF);
             break;  
         case BACK_HOME:
-            printf("5. Back-home: %s\n", back_home ? "ON" : "OFF");
+            printf("%s%s", ROW_4, back_home ? ON : OFF);
             break;
         case CHECK_OLIO:
-            printf("6. Check olio\n");
+            printf(ROW_5);
             break;
         case FRECCE_DIREZIONE:
-            printf("7. Frecce direzione: %d\n", direction_arrow);
+            printf("%s%d\n", ROW_6, light_indicators);
             break;
         case RESET_PRESSIONE_GOMME:
-            printf("8. Reset pressione gomme\n");
+            printf(ROW_7);
             break;
     }
 }
@@ -119,9 +158,11 @@ void perform_action(){
     char str_choice[STR_CHOICE_LENGTH];
 
     if(choice == BLOCCO_AUTOMATICO || choice == BACK_HOME){
-        printf("\nStato attuale: %s (freccia su o giù e invio per modificare)\n", choice == BLOCCO_AUTOMATICO ? (door_lock ? "ON" : "OFF") : (back_home ? "ON" : "OFF"));
-        printf(">> ");
-        scanf("%s", str_choice);
+        printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
+        printf(UP_DOWN_TO_CHANGE);
+        printf(LEFT_TO_GO_BACK);
+        printf(INPUT_CHAR);
+        scanf("%s%*c", str_choice);
 
         while(strcmp(str_choice, LEFT_ARROW)){
             if(!strcmp(str_choice, UP_ARROW) || !strcmp(str_choice, DOWN_ARROW)){
@@ -133,41 +174,60 @@ void perform_action(){
                 }
             }
             else if(strcmp(str_choice, LEFT_ARROW)){
-                printf("\n[!] Comando non riconosciuto\n");
+                printf(COMMAND_INVALID);
             }
 
-            printf("\nStato attuale: %s (freccia su o giù e invio per modificare)\n", choice == BLOCCO_AUTOMATICO ? (door_lock ? "ON" : "OFF") : (back_home ? "ON" : "OFF"));
-            printf(">> ");
-            scanf("%s", str_choice);
+            printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
+            printf(UP_DOWN_TO_CHANGE);
+            printf(LEFT_TO_GO_BACK);
+            printf(INPUT_CHAR);
+            scanf("%s%*c", str_choice);
         }
     }
     else if(choice == RESET_PRESSIONE_GOMME){
-        printf("\nPressione gomme resettata\n");
+        printf(TIRE_PRESSURE_RESETTED);
     }
     else if(choice == FRECCE_DIREZIONE){
-        printf("\nStato attuale: %d (inserire un valore da %d a %d)\n", direction_arrow, FRECCE_DIREZIONE_MIN, FRECCE_DIREZIONE_MAX);
-        printf(">> ");
-        scanf("%s", str_choice);
+        printf("%s%d", CURRENT_VALUE, light_indicators);
+        printf(INPUT_LIGHT_INDICATORS);
+        printf(LEFT_TO_GO_BACK);
+        printf(INPUT_CHAR);
+        scanf("%s%*c", str_choice);
         
         while(strcmp(str_choice, LEFT_ARROW)){
-            int new_direction_arrow = atoi(str_choice);
+            int new_light_indicators = atoi(str_choice);
 
-            if(new_direction_arrow < FRECCE_DIREZIONE_MIN){
-                new_direction_arrow = FRECCE_DIREZIONE_MIN;
+            if(new_light_indicators < FRECCE_DIREZIONE_MIN){
+                new_light_indicators = FRECCE_DIREZIONE_MIN;
             }
-            else if(new_direction_arrow > FRECCE_DIREZIONE_MAX){
-                new_direction_arrow = FRECCE_DIREZIONE_MAX;
+            else if(new_light_indicators > FRECCE_DIREZIONE_MAX){
+                new_light_indicators = FRECCE_DIREZIONE_MAX;
             }
             else {
-                direction_arrow = new_direction_arrow;
+                light_indicators = new_light_indicators;
             }
 
-            printf("\nStato attuale: %d (inserire un valore da %d a %d)\n", direction_arrow, FRECCE_DIREZIONE_MIN, FRECCE_DIREZIONE_MAX);
-            printf(">> ");
-            scanf("%s", str_choice);
+            printf("%s%d", NEW_VALUE, light_indicators);
+            printf(INPUT_LIGHT_INDICATORS);
+            printf(LEFT_TO_GO_BACK);
+            printf(INPUT_CHAR);
+            scanf("%s%*c", str_choice);
         }
     }
     else {
-        printf("\nFunzione non disponibile\n");
+        printf(FUNCTION_NOT_IMPLEMENTED);
+        printf(LEFT_TO_GO_BACK);
+
+        printf(INPUT_CHAR);
+        scanf("%s%*c", str_choice);
+
+        while(strcmp(str_choice, LEFT_ARROW)){
+            printf(COMMAND_INVALID);
+            printf(FUNCTION_NOT_IMPLEMENTED);
+            printf(LEFT_TO_GO_BACK);
+
+            printf(INPUT_CHAR);
+            scanf("%s%*c", str_choice);
+        }
     }
 }

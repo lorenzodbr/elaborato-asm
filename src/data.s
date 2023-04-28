@@ -3,7 +3,7 @@
 .section .data
     .global version_str
     version_str:
-        .asciz "1.3"
+        .asciz "1.4"
 
     .global initial_str_1
     initial_str_1:
@@ -121,8 +121,8 @@
     invalid_input_str: 
         .asciz "\n\t[!] Input non valido"
 
-    .global tire_pressure_reset_str
-    tire_pressure_reset_str: 
+    .global tire_pressure_resetted_str
+    tire_pressure_resetted_str: 
         .asciz "\n\t[!] Pressione gomme resettata\n"
 
     .global input_frecce_direzione_str
