@@ -9,7 +9,7 @@ all: $(EXE)
 
 $(EXE): $(OBJ)
 	$(LD) -o bin/$(EXE) obj/$(OBJ)
-$(OBJ): src/*/*/*.s src/*.s
+$(OBJ): src/*.s src/*/*/*.s
 	$(AS) $(FLAGS) -o obj/$(OBJ) src/*.s src/*/*/*.s
 clean:
 	rm -f obj/*.o bin/$(EXE) core

@@ -25,6 +25,10 @@
     supervisor_mode_str:
         .asciz "\n\t[!] Modalità supervisore attiva\n"
 
+    .global user_mode_str
+    user_mode_str:
+        .asciz "\n\t[!] Modalità utente attiva\n"
+
     .global pin_str
     pin_str:
         .asciz "2244"
@@ -37,10 +41,10 @@
     pin_incorrect_str:
         .asciz "PIN errato\n"
 
-    .global enter_str
-    enter_str:
+    .global newline_str
+    newline_str:
         .asciz "\n"
-
+        
     .global up_arrow_str
     up_arrow_str: 
         .asciz "\033[A\n"
@@ -143,7 +147,11 @@
 
     .global up_down_to_change_str
     up_down_to_change_str: 
-        .asciz "\t[!] Freccia su o giù, poi invio per modificare\n"
+        .asciz "\t[!] Freccia su o giù, poi invio per salvare\n"
+    
+    .global left_to_go_back_str
+    left_to_go_back_str: 
+        .asciz "\t[!] Freccia sinistra per tornare indietro\n"
 
     .global on_str
     on_str: 

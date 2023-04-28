@@ -11,29 +11,29 @@
 .type load_menu, @function
 
 load_menu:
-    call print_current_row      # print current row
+    call print_current_row       # print current row
     
-    leal input_char, %esi       # print ">>"
+    leal input_char, %esi        # print ">>"
     call strprint               
     
-    call strget                 # wait for user input
+    call strget                  # wait for user input
 
-    leal up_arrow_str, %edi     # compare input to up arrow
+    leal up_arrow_str, %edi      # compare input to up arrow
     call strcmp
     cmpl $0, %ecx                # if strcmp returns 0, jump to decrement_index
     je decrement_index
 
-    leal down_arrow_str, %edi   # compare input to down arrow
+    leal down_arrow_str, %edi    # compare input to down arrow
     call strcmp
     cmpl $0, %ecx                # if strcmp returns 0, jump to increment_index
     je increment_index
 
-    leal right_arrow_str, %edi  # compare input to right arrow
+    leal right_arrow_str, %edi   # compare input to right arrow
     call strcmp
     cmpl $0, %ecx                # if strcmp returns 0, jump to enter_submenu_call
     je enter_submenu_call
 
-    leal left_arrow_str, %edi   # compare input to enter
+    leal left_arrow_str, %edi       # compare input to enter
     call strcmp
     cmpl $0, %ecx                # if strcmp returns 0, exit load_menu
     je exit_load_menu

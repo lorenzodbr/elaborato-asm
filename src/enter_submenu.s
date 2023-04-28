@@ -37,7 +37,7 @@ enter_submenu:
     je submenu_7
 
 exit_submenu:
-    popl %eax
+    popl %eax                       # restore registers
     popl %ecx
     popl %esi
     popl %edi
@@ -56,19 +56,35 @@ submenu_5:                          # oil check
     leal function_not_implemented_str, %esi
     call strprint
 
-    jmp exit_submenu
+    jmp wait_to_exit
 
 submenu_1:                          # date
     leal date_str, %esi
     call strprint
 
-    jmp exit_submenu
+    jmp wait_to_exit
 
 submenu_2:                          # time
     leal time_str, %esi
     call strprint
+    
+wait_to_exit:                       # Wait for any input, and exit on "back" command
+    leal left_to_go_back_str, %esi
+    call strprint
+    
+    leal input_char, %esi
+    call strprint
 
-    jmp exit_submenu
+    call strget
+
+    leal left_arrow_str, %edi
+    call strcmp
+    cmpl $0, %ecx
+    je exit_submenu
+
+    call print_error
+
+    jmp wait_to_exit
 
 submenu_3:                          # auto door lock
     leal current_value_str, %esi
@@ -78,30 +94,30 @@ submenu_3:                          # auto door lock
     call status_print               # print ON/OFF depending on EAX value
 
 submenu_3_wait_for_input:
-    leal up_down_to_change_str, %esi    # print instructions
+    leal up_down_to_change_str, %esi    # Print instructions
     call strprint
     
-    leal input_char, %esi           # print ">>"
+    leal input_char, %esi           # Print ">>"
     call strprint
 
-    call strget                     # get input from user
+    call strget                     # Get input from user
 
-    leal up_arrow_str, %edi         # check if up arrow was pressed
+    leal up_arrow_str, %edi         # Check if up arrow was pressed
     call strcmp
     cmpl $0, %ecx
-    je update_door_lock             # if yes, update value
+    je update_door_lock             # If yes, update value
 
-    leal down_arrow_str, %edi       # check if down arrow was pressed
+    leal down_arrow_str, %edi       # Check if down arrow was pressed
     call strcmp
     cmpl $0, %ecx
-    je update_door_lock             # if yes, update value
+    je update_door_lock             # If yes, update value
 
-    leal left_arrow_str, %edi       # check if left arrow was pressed
+    leal left_arrow_str, %edi          # Check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
-    je exit_submenu                 # if yes, exit submenu
+    je exit_submenu                 # If yes, exit submenu
 
-    leal command_invalid_str, %esi  # print error message otherwise
+    leal command_invalid_str, %esi  # Print error message otherwise
     call strprint
 
     leal current_value_str, %esi
@@ -158,7 +174,7 @@ submenu_4_wait_for_input:
     cmpl $0, %ecx
     je update_back_home             # if yes, update value
 
-    leal left_arrow_str, %edi       # check if left arrow was pressed
+    leal left_arrow_str, %edi          # check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # if yes, exit submenu

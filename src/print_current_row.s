@@ -11,7 +11,7 @@
 .type print_current_row, @function
 
 print_current_row:
-    pushl %esi
+    pushl %esi              # Save registers
     pushl %eax
 
     cmpl $0, %edx           # Switch-case assembly implementation
@@ -42,79 +42,77 @@ print_current_row:
     jmp print_row
 
 print_row_0:
-    cmpl $8, %eax
+    cmpl $8, %eax               # If the user is the supervisor, print the supervisor row 
     je print_row_0_supervisor
 
 print_row_0_user:
-    leal row_0_str, %esi
+    leal row_0_str, %esi        # Print the normal row
     jmp print_row
 
 print_row_0_supervisor:
-    leal row_0_supervisor_str, %esi
+    leal row_0_supervisor_str, %esi    # Print the supervisor row
     jmp print_row
 
 print_row_1:
-    leal row_1_str, %esi
+    leal row_1_str, %esi        # Print the first row
     jmp print_row
 
 print_row_2:
-    leal row_2_str, %esi
+    leal row_2_str, %esi        # Print the second row
     jmp print_row
 
 print_row_3:
-    leal row_3_str, %esi
+    leal row_3_str, %esi        # Print the third row
     call strprint
 
-    movl door_lock, %eax
+    movl door_lock, %eax        # Check if the auto door lock is on
     cmpl $0, %eax
     je print_row_3_off
 
-    leal on_str, %esi
+    leal on_str, %esi           # Print the auto door lock on message
     jmp print_row
 
 print_row_3_off:
-    leal off_str, %esi
+    leal off_str, %esi          # Print the auto door lock off message
     jmp print_row
 
 print_row_4:
-    leal row_4_str, %esi
+    leal row_4_str, %esi        # Print the fourth row
     call strprint
 
-    movl back_home, %eax
+    movl back_home, %eax        # Check if the back home is on
     cmpl $0, %eax
     je print_row_4_off
 
-    leal on_str, %esi
+    leal on_str, %esi           # Print the back home on message
     jmp print_row
 
 print_row_4_off:
-    leal off_str, %esi
+    leal off_str, %esi          # Print the back home off message
     jmp print_row
 
 print_row_5:
-    leal row_5_str, %esi
+    leal row_5_str, %esi        # Print the fifth row
     jmp print_row
 
 print_row_6:
-    leal row_6_str, %esi
+    leal row_6_str, %esi        # Print the sixth row
     call strprint
 
-    movl frecce_direzione, %eax
+    movl frecce_direzione, %eax # Special print: a number
     call numprint
 
-    leal enter_str, %esi
-    call strprint
-
-    jmp exit_print_row
+    leal newline_str, %esi        # New line
+    jmp print_row
 
 print_row_7:
-    leal row_7_str, %esi
+    leal row_7_str, %esi        # Print the seventh row
     jmp print_row
     
 print_row:
-    call strprint
+    call strprint               # Execute the print
 
-exit_print_row:
+exit_print_row:                 # Restore registers and return
     popl %eax
     popl %esi
 

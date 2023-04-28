@@ -29,7 +29,7 @@ strget:
 
 	movl %ecx, %esi             # Store address of string in ESI
 
-    movb $0, 4(%esi)            # In case the string is too long, null terminate it
+    movb $0, 4(%esi)            # Null terminator
 
 exit_strget:
 	popl %edx                   # Restore registers
