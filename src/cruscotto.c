@@ -203,9 +203,8 @@ void perform_action(){
             else if(new_light_indicators > FRECCE_DIREZIONE_MAX){
                 new_light_indicators = FRECCE_DIREZIONE_MAX;
             }
-            else {
-                light_indicators = new_light_indicators;
-            }
+            
+            light_indicators = new_light_indicators;
 
             printf("%s%d", NEW_VALUE, light_indicators);
             printf(INPUT_LIGHT_INDICATORS);
