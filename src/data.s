@@ -3,7 +3,7 @@
 .section .data
     .global version_str
     version_str:
-        .asciz "1.4"
+        .asciz "1.5"
 
     .global initial_str_1
     initial_str_1:
