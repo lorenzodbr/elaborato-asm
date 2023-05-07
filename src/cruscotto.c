@@ -94,7 +94,7 @@ void handle_choice(){
         char str_choice[STR_CHOICE_LENGTH];
 
         printf(INPUT_CHAR);
-        scanf("%s%*c", str_choice);
+        scanf("%s", str_choice);
 
         if(!strcmp(str_choice, UP_ARROW)){
             choice = (choice - 1) % max_choice;
@@ -162,7 +162,7 @@ void perform_action(){
         printf(UP_DOWN_TO_CHANGE);
         printf(LEFT_TO_GO_BACK);
         printf(INPUT_CHAR);
-        scanf("%s%*c", str_choice);
+        scanf("%s", str_choice);
 
         while(strcmp(str_choice, LEFT_ARROW)){
             if(!strcmp(str_choice, UP_ARROW) || !strcmp(str_choice, DOWN_ARROW)){
@@ -181,7 +181,7 @@ void perform_action(){
             printf(UP_DOWN_TO_CHANGE);
             printf(LEFT_TO_GO_BACK);
             printf(INPUT_CHAR);
-            scanf("%s%*c", str_choice);
+            scanf("%s", str_choice);
         }
     }
     else if(choice == RESET_PRESSIONE_GOMME){
@@ -192,7 +192,7 @@ void perform_action(){
         printf(INPUT_LIGHT_INDICATORS);
         printf(LEFT_TO_GO_BACK);
         printf(INPUT_CHAR);
-        scanf("%s%*c", str_choice);
+        scanf("%s", str_choice);
         
         while(strcmp(str_choice, LEFT_ARROW)){
             int new_light_indicators = atoi(str_choice);
@@ -210,7 +210,7 @@ void perform_action(){
             printf(INPUT_LIGHT_INDICATORS);
             printf(LEFT_TO_GO_BACK);
             printf(INPUT_CHAR);
-            scanf("%s%*c", str_choice);
+            scanf("%s", str_choice);
         }
     }
     else {
@@ -218,7 +218,7 @@ void perform_action(){
         printf(LEFT_TO_GO_BACK);
 
         printf(INPUT_CHAR);
-        scanf("%s%*c", str_choice);
+        scanf("%s", str_choice);
 
         while(strcmp(str_choice, LEFT_ARROW)){
             printf(COMMAND_INVALID);
@@ -226,7 +226,7 @@ void perform_action(){
             printf(LEFT_TO_GO_BACK);
 
             printf(INPUT_CHAR);
-            scanf("%s%*c", str_choice);
+            scanf("%s", str_choice);
         }
     }
 }
