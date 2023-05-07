@@ -65,6 +65,10 @@
     input_char: 
         .asciz "\n>> "
 
+    .global enter_str
+    enter_str: 
+        .asciz "\n"
+
     .global command_invalid_str
     command_invalid_str:
         .asciz "\n\t[!] Comando non valido\n"
@@ -149,9 +153,9 @@
     up_down_to_change_str: 
         .asciz "\t[!] Freccia su o giù, poi invio per salvare\n"
     
-    .global left_to_go_back_str
-    left_to_go_back_str: 
-        .asciz "\t[!] Freccia sinistra per tornare indietro\n"
+    .global enter_to_go_back_str
+    enter_to_go_back_str: 
+        .asciz "\t[!] Invio per tornare indietro\n"
 
     .global on_str
     on_str: 

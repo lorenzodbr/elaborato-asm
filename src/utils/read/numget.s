@@ -2,11 +2,9 @@
 # Keep in ESI the address of the string from which the number is read
 
 .section .bss
-    str:    # Length is needed to prevent buffer overflow
+    num_str:    # Length is needed to prevent buffer overflow
         .asciz
 
-.section .data
-    
 .section .text
 	.global numget
 
@@ -18,14 +16,18 @@ numget:
 
     movl $3, %eax               # Syscall number
     movl $1, %ebx               # Stdin
-    leal str, %ecx              # Address of string
-    movl $255, %edx             # Length of buffer
-    # incl %edx                 
+    leal num_str, %ecx          # Address of string
+    movl $10, %edx              # Length of buffer (2^32-1 = 10 digits)         
     int $0x80                   # Call kernel
 
 	movl %ecx, %esi             # Store address of string in ESI
 
-    movl $0, 4(%esi)
+    cmpb $10, (%esi)            # Check if the first character is a newline
+    jne numget_add_null_terminator # If not, add a null terminator after 10 characters
+
+    movb $0, 1(%esi)            # Otherwise, add a null terminator after the first character
+numget_add_null_terminator:
+    movl $0, 10(%esi)           # Add a null terminator at the end of the string
 
     call atoi                   # Convert string to integer
 

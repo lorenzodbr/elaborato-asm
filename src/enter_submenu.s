@@ -70,7 +70,7 @@ submenu_2:                          # time
     call strprint
     
 wait_to_exit:                       # Wait for any input, and exit on "back" command
-    leal left_to_go_back_str, %esi
+    leal enter_to_go_back_str, %esi
     call strprint
     
     leal input_char, %esi           # Print ">>"
@@ -78,7 +78,7 @@ wait_to_exit:                       # Wait for any input, and exit on "back" com
 
     call strget                     # Get input from user
 
-    leal left_arrow_str, %edi       # Check if left arrow was pressed
+    leal enter_str, %edi            # Check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # If yes, exit submenu
@@ -98,9 +98,8 @@ submenu_3_wait_for_input:
     leal up_down_to_change_str, %esi    # Print instructions
     call strprint
     
-    leal left_to_go_back_str, %esi      # Print instructions string "Freccia sinistra per tornare indietro"
+    leal enter_to_go_back_str, %esi      # Print instructions string "Freccia sinistra per tornare indietro"
     call strprint
-
 
     leal input_char, %esi           # Print ">>"
     call strprint
@@ -117,7 +116,7 @@ submenu_3_wait_for_input:
     cmpl $0, %ecx
     je update_door_lock             # If yes, update value
 
-    leal left_arrow_str, %edi          # Check if left arrow was pressed
+    leal enter_str, %edi          # Check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # If yes, exit submenu
@@ -164,9 +163,8 @@ submenu_4_wait_for_input:
     leal up_down_to_change_str, %esi    # print instructions
     call strprint
     
-    leal left_to_go_back_str, %esi      # print instructions string "Freccia sinistra per tornare indietro"
+    leal enter_to_go_back_str, %esi      # print instructions string "Freccia sinistra per tornare indietro"
     call strprint
-
 
     leal input_char, %esi           # print ">>"
     call strprint
@@ -183,7 +181,7 @@ submenu_4_wait_for_input:
     cmpl $0, %ecx
     je update_back_home             # if yes, update value
 
-    leal left_arrow_str, %edi          # check if left arrow was pressed
+    leal enter_str, %edi          # check if left arrow was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # if yes, exit submenu
@@ -224,14 +222,13 @@ submenu_6_wait_for_input:
     leal input_frecce_direzione_str, %esi       # print instructions string "Inserisci il nuovo valore: "
     call strprint
 
-    leal left_to_go_back_str, %esi              # print instructions string "Freccia sinistra per tornare indietro"
+    leal enter_to_go_back_str, %esi              # print instructions string "Freccia sinistra per tornare indietro"
     call strprint
 
     leal input_char, %esi
     call strprint
     
     call numget
-    call atoi
 
     cmpl $0, %ebx
     jne lights_indicators_non_numeric_input
@@ -247,7 +244,7 @@ submenu_6_wait_for_input:
     jmp lights_indicators_print_new_value
 
 lights_indicators_non_numeric_input:
-    leal left_arrow_str, %edi
+    leal enter_str, %edi
     call strcmp
     cmpl $0, %ecx
     je exit_submenu

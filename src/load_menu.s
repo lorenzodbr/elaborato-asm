@@ -33,7 +33,7 @@ load_menu:
     cmpl $0, %ecx                # if strcmp returns 0, jump to enter_submenu_call
     je enter_submenu_call
 
-    leal left_arrow_str, %edi       # compare input to enter
+    leal enter_str, %edi         # compare input to enter
     call strcmp
     cmpl $0, %ecx                # if strcmp returns 0, exit load_menu
     je exit_load_menu

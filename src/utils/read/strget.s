@@ -29,6 +29,13 @@ strget:
 
 	movl %ecx, %esi             # Store address of string in ESI
 
+    cmpb $10, (%esi)            # Check if first char is newline
+    jne strget_add_null_terminator     # If not, add null terminator after 4 chars
+
+    movb $0, 1(%esi)
+    jmp exit_strget
+
+strget_add_null_terminator:
     movb $0, 4(%esi)            # Null terminator
 
 exit_strget:
