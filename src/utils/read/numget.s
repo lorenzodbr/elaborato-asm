@@ -5,6 +5,10 @@
     num_str:    # Length is needed to prevent buffer overflow
         .asciz
 
+.section .data
+    num_str_len:
+        .long 11 # 10 digits (including an optional '-' sign) + 1 newline
+
 .section .text
 	.global numget
 
@@ -17,7 +21,7 @@ numget:
     movl $3, %eax               # Syscall number
     movl $1, %ebx               # Stdin
     leal num_str, %ecx          # Address of string
-    movl $10, %edx              # Length of buffer (2^32-1 = 10 digits)         
+    movl $10, %edx              # Length of buffer (2^32-1 = 10 digits + 1 for sign)         
     int $0x80                   # Call kernel
 
 	movl %ecx, %esi             # Store address of string in ESI
@@ -27,7 +31,7 @@ numget:
 
     movb $0, 1(%esi)            # Otherwise, add a null terminator after the first character
 numget_add_null_terminator:
-    movl $0, 10(%esi)           # Add a null terminator at the end of the string
+    movb $0, 10(%esi)           # Add a null terminator at the end of the string
 
     call atoi                   # Convert string to integer
 

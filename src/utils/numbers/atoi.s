@@ -24,6 +24,9 @@ atoi:
   
     movb (%ecx, %esi), %bl
 
+    cmpb $10, %bl            # check if the first character is a '\n' (i.e. the user wants to quit)
+    je illegal_char
+
     cmpb $45, %bl            # check if the character is a '-'
     jne repeat_atoi
 
@@ -32,7 +35,7 @@ atoi:
 repeat_atoi:
     movb (%ecx, %esi), %bl
 
-    cmp $10, %bl             # check if the character is a '\n'
+    cmpb $10, %bl             # check if the character is a '\n'
     je conversion_success
   
     cmpb $48, %bl            # check if the character is a digit > 0
