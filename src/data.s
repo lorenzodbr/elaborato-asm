@@ -129,16 +129,16 @@
     tire_pressure_resetted_str: 
         .asciz "\n\t[!] Pressione gomme resettata\n"
 
-    .global input_frecce_direzione_str
-    input_frecce_direzione_str: 
+    .global input_turn_signals_str
+    input_turn_signals_str: 
         .asciz "\n\t[!] Inserire un numero intero (2-5)\n"
 
-    .global lights_indicators_too_big_str
-    lights_indicators_too_big_str: 
+    .global turn_signals_too_big_str
+    turn_signals_too_big_str: 
         .asciz "\n\t[!] Valore troppo grande. Imposto il massimo"
 
-    .global lights_indicators_too_small_str
-    lights_indicators_too_small_str: 
+    .global turn_signals_too_small_str
+    turn_signals_too_small_str: 
         .asciz "\n\t[!] Valore troppo piccolo. Imposto il minimo"
 
     .global current_value_str
@@ -165,18 +165,18 @@
     off_str: 
         .asciz "OFF\n"
 
-.section .data
-    .global frecce_direzione
-    frecce_direzione:
-        .int 3
-
-    .global frecce_direzione_max
-    frecce_direzione_max:
+    .global turn_signals_max
+    turn_signals_max:
         .int 5
 
-    .global frecce_direzione_min
-    frecce_direzione_min:
+    .global turn_signals_min
+    turn_signals_min:
         .int 2
+
+.section .data
+    .global turn_signals
+    turn_signals:
+        .int 3
 
     .global door_lock
     door_lock:

@@ -211,15 +211,15 @@ update_back_home:
     jmp submenu_4_wait_for_input
 
 submenu_6:                          # lights indicators set
-lights_indicators_print_current_value:
+turn_signals_print_current_value:
     leal current_value_str, %esi            # print current value string "Valore corrente: "
     call strprint
 
-    movl frecce_direzione, %eax             # print current value
+    movl turn_signals, %eax             # print current value
     call numprint
 
 submenu_6_wait_for_input:
-    leal input_frecce_direzione_str, %esi       # print instructions string "Inserisci il nuovo valore: "
+    leal input_turn_signals_str, %esi       # print instructions string "Inserisci il nuovo valore: "
     call strprint
 
     leal enter_to_go_back_str, %esi              # print instructions string "Freccia sinistra per tornare indietro"
@@ -231,19 +231,19 @@ submenu_6_wait_for_input:
     call numget
 
     cmpl $0, %ebx
-    jne lights_indicators_non_numeric_input
+    jne turn_signals_non_numeric_input
 
-    cmpl frecce_direzione_max, %eax
-    jg lights_indicators_too_big
+    cmpl turn_signals_max, %eax
+    jg turn_signals_too_big
 
-    cmpl frecce_direzione_min, %eax
-    jl lights_indicators_too_small
+    cmpl turn_signals_min, %eax
+    jl turn_signals_too_small
 
-    movl %eax, frecce_direzione
+    movl %eax, turn_signals
 
-    jmp lights_indicators_print_new_value
+    jmp turn_signals_print_new_value
 
-lights_indicators_non_numeric_input:
+turn_signals_non_numeric_input:
     leal enter_str, %edi
     call strcmp
     cmpl $0, %ecx
@@ -252,27 +252,27 @@ lights_indicators_non_numeric_input:
     leal invalid_input_str, %esi
     call strprint
 
-    jmp lights_indicators_print_current_value
+    jmp turn_signals_print_current_value
 
-lights_indicators_too_big:
+turn_signals_too_big:
     leal invalid_input_str, %esi
     call strprint
 
-    movl frecce_direzione_max, %eax
-    movl %eax, frecce_direzione
+    movl turn_signals_max, %eax
+    movl %eax, turn_signals
 
-    jmp lights_indicators_print_new_value
+    jmp turn_signals_print_new_value
 
-lights_indicators_too_small:
+turn_signals_too_small:
     leal invalid_input_str, %esi
     call strprint
 
-    movl frecce_direzione_min, %eax
-    movl %eax, frecce_direzione
+    movl turn_signals_min, %eax
+    movl %eax, turn_signals
 
-    jmp lights_indicators_print_new_value
+    jmp turn_signals_print_new_value
 
-lights_indicators_print_new_value:
+turn_signals_print_new_value:
     leal new_value_str, %esi
     call strprint
 

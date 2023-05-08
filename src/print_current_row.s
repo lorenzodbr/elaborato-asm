@@ -99,7 +99,7 @@ print_row_6:
     leal row_6_str, %esi        # Print the sixth row
     call strprint
 
-    movl frecce_direzione, %eax # Special print: a number
+    movl turn_signals, %eax # Special print: a number
     call numprint
 
     leal newline_str, %esi        # New line

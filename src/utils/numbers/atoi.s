@@ -2,6 +2,7 @@
 # EBX is set to 0 if the conversion was successful, and 1 if it failed.
 #
 # Registers:
+# ESI = pointer to the string
 # EAX = result
 # EBX = error flag
 

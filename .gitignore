@@ -2,3 +2,5 @@
 /cruscotto_c
 bin/*
 obj/*
+bin/cruscotto
+obj/cruscotto.o

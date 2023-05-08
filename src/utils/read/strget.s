@@ -4,11 +4,6 @@
     str:    # Length is needed to prevent buffer overflow
         .asciz
 
-.section .data
-    #str_len:
-        #.long . - str
-
-
 .section .text
 	.global strget
 
