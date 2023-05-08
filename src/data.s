@@ -135,11 +135,11 @@
 
     .global turn_signals_too_big_str
     turn_signals_too_big_str: 
-        .asciz "\n\t[!] Valore troppo grande. Imposto il massimo"
+        .asciz "\n\t[!] Input troppo alto, impostato al massimo"
 
     .global turn_signals_too_small_str
     turn_signals_too_small_str: 
-        .asciz "\n\t[!] Valore troppo piccolo. Imposto il minimo"
+        .asciz "\n\t[!] Input troppo basso, impostato al minimo"
 
     .global current_value_str
     current_value_str: 

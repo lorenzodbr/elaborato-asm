@@ -4,3 +4,4 @@ bin/*
 obj/*
 bin/cruscotto
 obj/cruscotto.o
+src/cruscotto_c

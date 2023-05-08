@@ -4,14 +4,14 @@
 
 #define PIN "2244"
 
-#define UP_ARROW "\x1B[A"
-#define DOWN_ARROW "\x1B[B"
-#define LEFT_ARROW "\x1B[D"
-#define RIGHT_ARROW "\x1B[C"
+#define UP_ARROW "\x1B[A\n"
+#define DOWN_ARROW "\x1B[B\n"
+#define LEFT_ARROW "\x1B[D\n"
+#define RIGHT_ARROW "\x1B[C\n"
 #define ENTER "\n"
 #define INITIAL_MESSAGE_1 "\n\t  [!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
 #define EXIT_MESSAGE "\n\t[!] Esco dal cruscotto...\n"
-#define VERSION "1.4"
+#define VERSION "1.5"
 #define INITIAL_MESSAGE_2 "          |\n  | di Lorenzo Di Berardino e Filippo Milani |\n  --------------------------------------------\n"
 #define SUPERVISOR_MODE "\n\t[!] Modalità supervisore attiva\n"
 #define USER_MODE "\n\t[!] Modalità utente attiva\n"
@@ -30,12 +30,14 @@
 #define COMMAND_INVALID "\n\t[!] Comando non valido\n"
 #define FUNCTION_NOT_IMPLEMENTED "\n\t[!] Funzione non implementata\n"
 #define INVALID_INPUT "\n\t[!] Input non valido"
+#define INPUT_TOO_SMALL "\n\t[!] Input troppo basso, impostato al minimo"
+#define INPUT_TOO_BIG "\n\t[!] Input troppo alto, impostato al massimo"
 #define TIRE_PRESSURE_RESETTED "\n\t[!] Pressione gomme resettata\n"
 #define INPUT_LIGHT_INDICATORS "\n\t[!] Inserire un numero intero (2-5)\n"
 #define CURRENT_VALUE "\n\t[!] Valore attuale: "
 #define NEW_VALUE "\n\t[!] Nuovo valore: "
 #define UP_DOWN_TO_CHANGE "\t[!] Freccia su o giù, poi invio per salvare\n"
-#define LEFT_TO_GO_BACK "\t[!] Freccia sinistra per tornare indietro\n"
+#define ENTER_TO_GO_BACK "\t[!] Invio per tornare indietro\n"
 #define ON "ON\n"
 #define OFF "OFF\n"
 
@@ -94,7 +96,7 @@ void handle_choice(){
         char str_choice[STR_CHOICE_LENGTH];
 
         printf(INPUT_CHAR);
-        scanf("%s", str_choice);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
 
         if(!strcmp(str_choice, UP_ARROW)){
             choice = (choice - 1) % max_choice;
@@ -105,7 +107,7 @@ void handle_choice(){
         else if(!strcmp(str_choice, RIGHT_ARROW)){
             perform_action();
         }
-        else if(!strcmp(str_choice, LEFT_ARROW)){
+        else if(!strcmp(str_choice, ENTER)){
             return;
         }
         else {
@@ -160,11 +162,11 @@ void perform_action(){
     if(choice == BLOCCO_AUTOMATICO || choice == BACK_HOME){
         printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
         printf(UP_DOWN_TO_CHANGE);
-        printf(LEFT_TO_GO_BACK);
+        printf(ENTER_TO_GO_BACK);
         printf(INPUT_CHAR);
-        scanf("%s", str_choice);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
 
-        while(strcmp(str_choice, LEFT_ARROW)){
+        while(strcmp(str_choice, ENTER)){
             if(!strcmp(str_choice, UP_ARROW) || !strcmp(str_choice, DOWN_ARROW)){
                 if(choice == BLOCCO_AUTOMATICO){
                     door_lock = !door_lock;
@@ -173,15 +175,15 @@ void perform_action(){
                     back_home = !back_home;
                 }
             }
-            else if(strcmp(str_choice, LEFT_ARROW)){
+            else if(strcmp(str_choice, ENTER)){
                 printf(COMMAND_INVALID);
             }
 
             printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
             printf(UP_DOWN_TO_CHANGE);
-            printf(LEFT_TO_GO_BACK);
+            printf(ENTER_TO_GO_BACK);
             printf(INPUT_CHAR);
-            scanf("%s", str_choice);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
         }
     }
     else if(choice == RESET_PRESSIONE_GOMME){
@@ -190,43 +192,53 @@ void perform_action(){
     else if(choice == FRECCE_DIREZIONE){
         printf("%s%d", CURRENT_VALUE, light_indicators);
         printf(INPUT_LIGHT_INDICATORS);
-        printf(LEFT_TO_GO_BACK);
+        printf(ENTER_TO_GO_BACK);
         printf(INPUT_CHAR);
-        scanf("%s", str_choice);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
         
-        while(strcmp(str_choice, LEFT_ARROW)){
+        while(strcmp(str_choice, ENTER)){
             int new_light_indicators = atoi(str_choice);
 
-            if(new_light_indicators < FRECCE_DIREZIONE_MIN){
-                new_light_indicators = FRECCE_DIREZIONE_MIN;
+            //check if conversion is valid based on atoi documentation
+            if(new_light_indicators == 0 && str_choice[0] != '0'){
+                printf(INVALID_INPUT);
+                printf(CURRENT_VALUE);
             }
-            else if(new_light_indicators > FRECCE_DIREZIONE_MAX){
-                new_light_indicators = FRECCE_DIREZIONE_MAX;
-            }
-            
-            light_indicators = new_light_indicators;
+            else {
+                if(new_light_indicators < FRECCE_DIREZIONE_MIN){
+                    new_light_indicators = FRECCE_DIREZIONE_MIN;
+                    printf(INPUT_TOO_SMALL);
+                }
+                else if(new_light_indicators > FRECCE_DIREZIONE_MAX){
+                    new_light_indicators = FRECCE_DIREZIONE_MAX;
+                    printf(INPUT_TOO_BIG);
+                }
 
-            printf("%s%d", NEW_VALUE, light_indicators);
+                light_indicators = new_light_indicators;
+                printf("%s", NEW_VALUE);
+            }
+
+            printf("%d", light_indicators);
             printf(INPUT_LIGHT_INDICATORS);
-            printf(LEFT_TO_GO_BACK);
+            printf(ENTER_TO_GO_BACK);
             printf(INPUT_CHAR);
-            scanf("%s", str_choice);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
         }
     }
     else {
         printf(FUNCTION_NOT_IMPLEMENTED);
-        printf(LEFT_TO_GO_BACK);
+        printf(ENTER_TO_GO_BACK);
 
         printf(INPUT_CHAR);
-        scanf("%s", str_choice);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
 
-        while(strcmp(str_choice, LEFT_ARROW)){
+        while(strcmp(str_choice, ENTER)){
             printf(COMMAND_INVALID);
             printf(FUNCTION_NOT_IMPLEMENTED);
-            printf(LEFT_TO_GO_BACK);
+            printf(ENTER_TO_GO_BACK);
 
             printf(INPUT_CHAR);
-            scanf("%s", str_choice);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
         }
     }
 }

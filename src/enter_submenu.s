@@ -255,7 +255,7 @@ turn_signals_non_numeric_input:
     jmp turn_signals_print_current_value
 
 turn_signals_too_big:
-    leal invalid_input_str, %esi
+    leal turn_signals_too_big_str, %esi
     call strprint
 
     movl turn_signals_max, %eax
@@ -264,7 +264,7 @@ turn_signals_too_big:
     jmp turn_signals_print_new_value
 
 turn_signals_too_small:
-    leal invalid_input_str, %esi
+    leal turn_signals_too_small_str, %esi
     call strprint
 
     movl turn_signals_min, %eax
