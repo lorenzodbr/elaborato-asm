@@ -27,10 +27,13 @@ numget:
 	movl %ecx, %esi             # Store address of string in ESI
 
     cmpb $10, (%esi)            # Check if the first character is a newline
-    jne numget_add_null_terminator # If not, add a null terminator after 10 characters
+    jne numget_add_std_terminator # If not, add a null terminator after 10 characters
 
+numget_add_newline_terminator:
     movb $0, 1(%esi)            # Otherwise, add a null terminator after the first character
-numget_add_null_terminator:
+    jmp exit_numget
+    
+numget_add_std_terminator:
     movb $0, (%esi, %edx)       # Add a null terminator at the end of the string
 
     call atoi                   # Convert string to integer
