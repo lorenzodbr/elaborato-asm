@@ -1,6 +1,6 @@
 # Variables and constants of the program
 
-.section .data
+.section .rodata
     .global version_str
     version_str:
         .asciz "1.5"
@@ -165,6 +165,7 @@
     off_str: 
         .asciz "OFF\n"
 
+.section .data
     .global frecce_direzione
     frecce_direzione:
         .int 3
