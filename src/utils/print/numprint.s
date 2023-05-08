@@ -6,9 +6,6 @@
 .type numprint, @function
 
 numprint:
-    
-
-print:
 	call itoa					# Convert the number to a string
     call strprint               # Call the string print function
 
