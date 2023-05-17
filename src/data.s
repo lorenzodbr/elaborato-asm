@@ -7,7 +7,7 @@
 
     .global initial_str_1
     initial_str_1:
-        .asciz "\n\t  [!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
+        .asciz "\n  --------------------------------------------\n  |         Cruscotto Assembly v"
 
     .global initial_str_2
     initial_str_2:
@@ -16,6 +16,10 @@
     .global exit_str 
     exit_str:
         .asciz "\n\t[!] Esco dal cruscotto...\n"
+
+    .global clear_str
+    clear_str:
+        .asciz "\033[2J\033[1;1H"
 
     .global no_param_str
     no_param_str:
@@ -124,6 +128,10 @@
     .global invalid_input_str
     invalid_input_str: 
         .asciz "\n\t[!] Input non valido"
+
+    .global error_str
+    error_str: 
+        .asciz "\n\t Si è verificato un errore"
 
     .global tire_pressure_resetted_str
     tire_pressure_resetted_str: 

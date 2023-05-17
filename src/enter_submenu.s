@@ -78,7 +78,7 @@ wait_to_exit:                       # Wait for any input, and exit on "back" com
 
     call strget                     # Get input from user
 
-    leal enter_str, %edi            # Check if left arrow was pressed
+    leal enter_str, %edi            # Check if enter was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # If yes, exit submenu
@@ -116,7 +116,7 @@ submenu_3_wait_for_input:
     cmpl $0, %ecx
     je update_door_lock             # If yes, update value
 
-    leal enter_str, %edi          # Check if left arrow was pressed
+    leal enter_str, %edi          # Check if enter was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # If yes, exit submenu
@@ -181,7 +181,7 @@ submenu_4_wait_for_input:
     cmpl $0, %ecx
     je update_back_home             # if yes, update value
 
-    leal enter_str, %edi          # check if left arrow was pressed
+    leal enter_str, %edi          # check if enter was pressed
     call strcmp
     cmpl $0, %ecx
     je exit_submenu                 # if yes, exit submenu

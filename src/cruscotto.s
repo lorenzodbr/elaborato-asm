@@ -28,16 +28,6 @@ save_registers:
     xorl %esi, %esi
     xorl %edi, %edi
 
-print_initial_message:
-    leal initial_str_1, %esi            # Print initial string
-    call strprint
-
-    leal version_str, %esi
-    call strprint
-
-    leal initial_str_2, %esi
-    call strprint
-
 get_param:
     popl %eax                           # Get param length
 

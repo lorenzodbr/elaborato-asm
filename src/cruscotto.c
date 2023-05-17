@@ -16,6 +16,7 @@
 #define SUPERVISOR_MODE "\n\t[!] Modalità supervisore attiva\n"
 #define USER_MODE "\n\t[!] Modalità utente attiva\n"
 #define INPUT_CHAR "\n>> "
+#define CLEAR "\033[H\033[J"
 
 #define ROW_0 "    1. Setting automobile\n"
 #define ROW_0_SUPERVISOR "    1. Setting automobile (supervisore)\n"
@@ -121,7 +122,8 @@ void handle_choice(){
 }
 
 void get_row(){
-    printf("\n");
+    printf(ENTER);
+    // printf(CLEAR);
 
     switch (choice){
         case SETTING_AUTOMOBILE:
@@ -148,7 +150,7 @@ void get_row(){
             printf(ROW_5);
             break;
         case FRECCE_DIREZIONE:
-            printf("%s%d\n", ROW_6, light_indicators);
+            printf("%s%d%s", ROW_6, light_indicators, ENTER);
             break;
         case RESET_PRESSIONE_GOMME:
             printf(ROW_7);

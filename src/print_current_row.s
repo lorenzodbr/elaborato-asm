@@ -14,6 +14,17 @@ print_current_row:
     pushl %esi              # Save registers
     pushl %eax
 
+print_banner:
+    leal initial_str_1, %esi            # Print initial string
+    call strprint
+
+    leal version_str, %esi
+    call strprint
+
+    leal initial_str_2, %esi
+    call strprint
+
+check_row:
     cmpl $0, %edx           # Switch-case assembly implementation
     je print_row_0
 
