@@ -45,14 +45,10 @@ get_param:
 
 enable_user:
     movl $6, %eax                       # Set user mode menu length
-    leal user_mode_str, %esi            # Print user mode string
-    call strprint
     jmp handle_choice
 
 enable_supervisor:
     movl $8, %eax                       # Set supervisor mode menu length
-    leal supervisor_mode_str, %esi      # Print supervisor mode string
-    call strprint
     
 handle_choice:
     xorl %edx, %edx                     # Zero out edx (index of menu)

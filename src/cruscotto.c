@@ -9,7 +9,7 @@
 #define LEFT_ARROW "\x1B[D\n"
 #define RIGHT_ARROW "\x1B[C\n"
 #define ENTER "\n"
-#define INITIAL_MESSAGE_1 "\n\t  [!] Avvio del cruscotto...\n\n  --------------------------------------------\n  |         Cruscotto Assembly v"
+#define INITIAL_MESSAGE_1 "\n  --------------------------------------------\n  |         Cruscotto Assembly v"
 #define EXIT_MESSAGE "\n\t[!] Esco dal cruscotto...\n"
 #define VERSION "1.5"
 #define INITIAL_MESSAGE_2 "          |\n  | di Lorenzo Di Berardino e Filippo Milani |\n  --------------------------------------------\n"
@@ -72,15 +72,9 @@ void handle_choice();
 void get_row();
 void perform_action();
 
-int main(int argc, char *argv[]){
-    printf("%s%s%s", INITIAL_MESSAGE_1, VERSION, INITIAL_MESSAGE_2);
-    
+int main(int argc, char *argv[]){    
     if(argc == 2 && !strcmp(argv[1], PIN)){
-        printf(SUPERVISOR_MODE);
         max_choice = SUPERVISOR_CHOICES_COUNT;
-    }
-    else {
-        printf(USER_MODE);
     }
 
     handle_choice();
@@ -92,6 +86,15 @@ int main(int argc, char *argv[]){
 
 void handle_choice(){
     do { 
+        printf(CLEAR);
+        printf("%s%s%s", INITIAL_MESSAGE_1, VERSION, INITIAL_MESSAGE_2);
+
+        if(max_choice == SUPERVISOR_CHOICES_COUNT){
+            printf(SUPERVISOR_MODE);
+        } else {
+            printf(USER_MODE);
+        }
+        
         get_row();
 
         char str_choice[STR_CHOICE_LENGTH];
@@ -123,7 +126,6 @@ void handle_choice(){
 
 void get_row(){
     printf(ENTER);
-    // printf(CLEAR);
 
     switch (choice){
         case SETTING_AUTOMOBILE:
