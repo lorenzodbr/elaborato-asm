@@ -28,6 +28,16 @@ save_registers:
     xorl %esi, %esi
     xorl %edi, %edi
 
+print_initial_message:
+    leal initial_str_1, %esi            # Print initial string
+    call strprint
+
+    leal version_str, %esi
+    call strprint
+
+    leal initial_str_2, %esi
+    call strprint
+
 get_param:
     popl %eax                           # Get param length
 
@@ -45,10 +55,14 @@ get_param:
 
 enable_user:
     movl $6, %eax                       # Set user mode menu length
+    leal user_mode_str, %esi            # Print user mode string
+    call strprint
     jmp handle_choice
 
 enable_supervisor:
     movl $8, %eax                       # Set supervisor mode menu length
+    leal supervisor_mode_str, %esi      # Print supervisor mode string
+    call strprint
     
 handle_choice:
     xorl %edx, %edx                     # Zero out edx (index of menu)

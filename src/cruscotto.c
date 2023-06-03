@@ -20,8 +20,8 @@
 
 #define ROW_0 "    1. Setting automobile\n"
 #define ROW_0_SUPERVISOR "    1. Setting automobile (supervisore)\n"
-#define ROW_1 "    2. Data\n"
-#define ROW_2 "    3. Ora\n"
+#define ROW_1 "    2. Data: 15/06/2023\n"
+#define ROW_2 "    3. Ora: 15:32\n"
 #define ROW_3 "    4. Blocco automatico porte: "
 #define ROW_4 "    5. Back-home: "
 #define ROW_5 "    6. Check olio\n"
@@ -73,53 +73,52 @@ void get_row();
 void perform_action();
 
 int main(int argc, char *argv[]){    
-    if(argc == 2 && !strcmp(argv[1], PIN)){
-        max_choice = SUPERVISOR_CHOICES_COUNT;
+    if(argc == 2 && !strcmp(argv[1], PIN)){         //controllo che il pin sia corretto
+        max_choice = SUPERVISOR_CHOICES_COUNT;      //se è corretto, attivo la modalità supervisore
     }
 
-    handle_choice();
+    printf("%s%s%s", INITIAL_MESSAGE_1, VERSION, INITIAL_MESSAGE_2);    //stampo il messaggio iniziale
 
-    printf(EXIT_MESSAGE);
+    if(max_choice == SUPERVISOR_CHOICES_COUNT){                         //se sono in modalità supervisore
+        printf(SUPERVISOR_MODE);                                        //stampo il messaggio di modalità supervisore
+    } else {
+        printf(USER_MODE);                                              //altrimenti stampo il messaggio di modalità utente
+    }
+
+    handle_choice();                                //gestisco la scelta dell'utente
+
+    printf(EXIT_MESSAGE);                           //esco dal cruscotto
 
     return 0;
 }
 
 void handle_choice(){
-    do { 
-        printf(CLEAR);
-        printf("%s%s%s", INITIAL_MESSAGE_1, VERSION, INITIAL_MESSAGE_2);
-
-        if(max_choice == SUPERVISOR_CHOICES_COUNT){
-            printf(SUPERVISOR_MODE);
-        } else {
-            printf(USER_MODE);
-        }
-        
-        get_row();
+    do {       
+        get_row();                                                          //stampo la riga corrispondente alla scelta attuale
 
         char str_choice[STR_CHOICE_LENGTH];
 
         printf(INPUT_CHAR);
-        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);                        //prendo l'input dell'utente
 
-        if(!strcmp(str_choice, UP_ARROW)){
-            choice = (choice - 1) % max_choice;
+        if(!strcmp(str_choice, UP_ARROW)){                                  //se l'utente ha premuto la freccia su
+            choice = (choice - 1) % max_choice;                             //diminuisco la scelta attuale
         }
-        else if(!strcmp(str_choice, DOWN_ARROW)){
-            choice = (choice + 1) % max_choice;
+        else if(!strcmp(str_choice, DOWN_ARROW)){                           //se l'utente ha premuto la freccia giù
+            choice = (choice + 1) % max_choice;                             //aumento la scelta attuale
         }
-        else if(!strcmp(str_choice, RIGHT_ARROW)){
-            perform_action();
+        else if(!strcmp(str_choice, RIGHT_ARROW)){                          //se l'utente ha premuto la freccia destra
+            perform_action();                                               //entro nel sottomenu
         }
-        else if(!strcmp(str_choice, ENTER)){
-            return;
+        else if(!strcmp(str_choice, ENTER)){                                //se l'utente ha premuto invio
+            return;                                                         //esco dal cruscotto
         }
         else {
-            printf(COMMAND_INVALID);
+            printf(COMMAND_INVALID);                                        //altrimenti stampo un messaggio di comando non valido
         }
 
-        if(choice < 0){
-            choice = max_choice - 1;
+        if(choice < 0){                                                     //se la scelta è minore di 0
+            choice = max_choice - 1;                                        //la imposto al massimo
         }
     } while(TRUE);
 }
@@ -127,7 +126,7 @@ void handle_choice(){
 void get_row(){
     printf(ENTER);
 
-    switch (choice){
+    switch (choice){                                            //stampo la riga corrispondente alla scelta attuale                                
         case SETTING_AUTOMOBILE:
             if(max_choice == SUPERVISOR_CHOICES_COUNT){
                 printf(ROW_0_SUPERVISOR);
@@ -163,31 +162,31 @@ void get_row(){
 void perform_action(){
     char str_choice[STR_CHOICE_LENGTH];
 
-    if(choice == BLOCCO_AUTOMATICO || choice == BACK_HOME){
+    if(choice == BLOCCO_AUTOMATICO || choice == BACK_HOME){         //se la scelta è blocco automatico o back-home
         printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
         printf(UP_DOWN_TO_CHANGE);
         printf(ENTER_TO_GO_BACK);
         printf(INPUT_CHAR);
-        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);                //prendo l'input freccia su o giù dell'utente
 
-        while(strcmp(str_choice, ENTER)){
+        while(strcmp(str_choice, ENTER)){                           //finchè l'utente non preme invio per uscire
             if(!strcmp(str_choice, UP_ARROW) || !strcmp(str_choice, DOWN_ARROW)){
-                if(choice == BLOCCO_AUTOMATICO){
-                    door_lock = !door_lock;
+                if(choice == BLOCCO_AUTOMATICO){                    //se la scelta è blocco automatico
+                    door_lock = !door_lock;                         //cambio il valore di blocco automatico
                 }
                 else {
-                    back_home = !back_home;
+                    back_home = !back_home;                         //altrimenti cambio il valore di back-home
                 }
             }
             else if(strcmp(str_choice, ENTER)){
-                printf(COMMAND_INVALID);
+                printf(COMMAND_INVALID);                            //se l'utente ha premuto un tasto diverso da invio, stampo un messaggio di comando non valido
             }
 
             printf("%s%s", CURRENT_VALUE, choice == BLOCCO_AUTOMATICO ? (door_lock ? ON : OFF) : (back_home ? ON : OFF));
             printf(UP_DOWN_TO_CHANGE);
             printf(ENTER_TO_GO_BACK);
             printf(INPUT_CHAR);
-            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);            //prendo nuovamente l'input freccia su o giù dell'utente
         }
     }
     else if(choice == RESET_PRESSIONE_GOMME){
@@ -198,27 +197,26 @@ void perform_action(){
         printf(INPUT_LIGHT_INDICATORS);
         printf(ENTER_TO_GO_BACK);
         printf(INPUT_CHAR);
-        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);                    //prendo l'input numerico dell'utente
         
         while(strcmp(str_choice, ENTER)){
-            int new_light_indicators = atoi(str_choice);
+            int new_light_indicators = atoi(str_choice);                //converto l'input in un intero
 
-            //check if conversion is valid based on atoi documentation
-            if(new_light_indicators == 0 && str_choice[0] != '0'){
-                printf(INVALID_INPUT);
+            if(new_light_indicators == 0 && str_choice[0] != '0'){      //se l'input non è un numero
+                printf(INVALID_INPUT);                                  //stampo un messaggio di input non valido
                 printf(CURRENT_VALUE);
             }
             else {
-                if(new_light_indicators < FRECCE_DIREZIONE_MIN){
-                    new_light_indicators = FRECCE_DIREZIONE_MIN;
+                if(new_light_indicators < FRECCE_DIREZIONE_MIN){        //se l'input è minore del minimo
+                    new_light_indicators = FRECCE_DIREZIONE_MIN;        //imposto il valore al minimo
                     printf(INPUT_TOO_SMALL);
                 }
                 else if(new_light_indicators > FRECCE_DIREZIONE_MAX){
-                    new_light_indicators = FRECCE_DIREZIONE_MAX;
+                    new_light_indicators = FRECCE_DIREZIONE_MAX;        //altrimenti se l'input è maggiore del massimo
                     printf(INPUT_TOO_BIG);
                 }
 
-                light_indicators = new_light_indicators;
+                light_indicators = new_light_indicators;                //imposto il valore delle frecce direzione
                 printf("%s", NEW_VALUE);
             }
 
@@ -226,23 +224,23 @@ void perform_action(){
             printf(INPUT_LIGHT_INDICATORS);
             printf(ENTER_TO_GO_BACK);
             printf(INPUT_CHAR);
-            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);                //prendo nuovamente l'input numerico dell'utente
         }
     }
     else {
-        printf(FUNCTION_NOT_IMPLEMENTED);
+        printf(FUNCTION_NOT_IMPLEMENTED);                               //stampo un messaggio di funzione non implementata per le rimanenti
         printf(ENTER_TO_GO_BACK);
 
         printf(INPUT_CHAR);
-        fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);                    //prendo l'input dell'utente
 
-        while(strcmp(str_choice, ENTER)){
-            printf(COMMAND_INVALID);
+        while(strcmp(str_choice, ENTER)){                               //finchè l'utente non preme invio per uscire
+            printf(COMMAND_INVALID);                                    //stampo un messaggio di comando non valido
             printf(FUNCTION_NOT_IMPLEMENTED);
             printf(ENTER_TO_GO_BACK);
 
             printf(INPUT_CHAR);
-            fgets(str_choice, STR_CHOICE_LENGTH, stdin);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);                //prendo nuovamente l'input dell'utente
         }
     }
 }

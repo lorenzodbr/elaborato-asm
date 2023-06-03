@@ -11,9 +11,6 @@
 .type load_menu, @function
 
 load_menu:
-    leal clear_str, %esi
-    call strprint
-
     call print_current_row       # print current row
     
     leal input_char, %esi        # print ">>"

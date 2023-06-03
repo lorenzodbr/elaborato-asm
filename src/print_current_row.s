@@ -12,30 +12,6 @@
 
 print_current_row:
     pushl %esi              # Save registers
-
-print_banner:
-    leal initial_str_1, %esi            # Print initial string
-    call strprint
-
-    leal version_str, %esi
-    call strprint
-
-    leal initial_str_2, %esi
-    call strprint
-
-    cmpl $8, %eax           # Check if the user is the supervisor
-    jne print_user_message
-
-    leal supervisor_mode_str, %esi           # Print supervisor message
-    call strprint
-
-    jmp save_register
-
-print_user_message:
-    leal user_mode_str, %esi         # Print user message
-    call strprint
-
-save_register:
     pushl %eax
 
 check_row:
