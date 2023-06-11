@@ -91,7 +91,7 @@
 
     .global date_str
     date_str: 
-        .asciz "\n\tData corrente: 15/06/2014\n"
+        .asciz "\n\t[!] Data corrente: 15/06/2014\n"
 
     .global row_2_str
     row_2_str: 
@@ -99,7 +99,7 @@
 
     .global time_str
     time_str: 
-        .asciz "\n\tOra corrente: 15:32\n"
+        .asciz "\n\t[!] Ora corrente: 15:32\n"
 
     .global row_3_str
     row_3_str: 

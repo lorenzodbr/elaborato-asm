@@ -1,7 +1,7 @@
 # Main file
 
 .section .data
-    eax_value: .long 0              # Initial values of registers
+    eax_value: .long 0                  # Initial values of registers
     ebx_value: .long 0
     ecx_value: .long 0
     edx_value: .long 0
@@ -14,7 +14,7 @@
 _start:
 
 save_registers:
-    movl %eax, eax_value            # Save initial values
+    movl %eax, eax_value                # Save initial values
     movl %ebx, ebx_value            
     movl %ecx, ecx_value            
     movl %edx, edx_value            

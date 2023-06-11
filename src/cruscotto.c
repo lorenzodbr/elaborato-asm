@@ -20,8 +20,8 @@
 
 #define ROW_0 "    1. Setting automobile\n"
 #define ROW_0_SUPERVISOR "    1. Setting automobile (supervisore)\n"
-#define ROW_1 "    2. Data: 15/06/2023\n"
-#define ROW_2 "    3. Ora: 15:32\n"
+#define ROW_1 "    2. Data\n"
+#define ROW_2 "    3. Ora\n"
 #define ROW_3 "    4. Blocco automatico porte: "
 #define ROW_4 "    5. Back-home: "
 #define ROW_5 "    6. Check olio\n"
@@ -36,6 +36,8 @@
 #define TIRE_PRESSURE_RESETTED "\n\t[!] Pressione gomme resettata\n"
 #define INPUT_LIGHT_INDICATORS "\n\t[!] Inserire un numero intero (2-5)\n"
 #define CURRENT_VALUE "\n\t[!] Valore attuale: "
+#define CURRENT_DATE "\n\t[!] Data corrente: "
+#define CURRENT_TIME "\n\t[!] Ora corrente: "
 #define NEW_VALUE "\n\t[!] Nuovo valore: "
 #define UP_DOWN_TO_CHANGE "\t[!] Freccia su o giù, poi invio per salvare\n"
 #define ENTER_TO_GO_BACK "\t[!] Invio per tornare indietro\n"
@@ -55,6 +57,9 @@
 #define FRECCE_DIREZIONE_MIN 2
 #define FRECCE_DIREZIONE_MAX 5
 #define STR_CHOICE_LENGTH 255
+
+#define DATE "15/06/2014"
+#define TIME "15:32"
 
 #define USER_CHOICES_COUNT 6
 #define SUPERVISOR_CHOICES_COUNT 8
@@ -225,6 +230,35 @@ void perform_action(){
             printf(ENTER_TO_GO_BACK);
             printf(INPUT_CHAR);
             fgets(str_choice, STR_CHOICE_LENGTH, stdin);                //prendo nuovamente l'input numerico dell'utente
+        }
+    }
+    else if(choice == DATA || choice == ORA){
+        if(choice == DATA){
+            printf("%s%s\n", CURRENT_DATE, DATE);
+        }
+        else {
+            printf("%s%s\n", CURRENT_TIME, TIME);
+        }
+
+        printf(ENTER_TO_GO_BACK);
+        printf(INPUT_CHAR);
+
+        fgets(str_choice, STR_CHOICE_LENGTH, stdin);                    //prendo l'input dell'utente
+
+        while(strcmp(str_choice, ENTER)){                               //finchè l'utente non preme invio per uscire
+            printf(COMMAND_INVALID);                                    //stampo un messaggio di comando non valido
+
+            if(choice == DATA){
+                printf("%s%s\n", CURRENT_DATE, DATE);
+            }
+            else {
+                printf("%s%s\n", CURRENT_TIME, TIME);
+            }
+
+            printf(ENTER_TO_GO_BACK);
+
+            printf(INPUT_CHAR);
+            fgets(str_choice, STR_CHOICE_LENGTH, stdin);                //prendo nuovamente l'input dell'utente
         }
     }
     else {
